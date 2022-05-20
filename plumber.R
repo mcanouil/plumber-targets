@@ -1,26 +1,18 @@
-#* Echo the parameter that was sent in
-#* @param msg The message to echo back.
-#* @get /echo
-function(msg = "") {
-  list(msg = paste0("The message is: '", msg, "'"))
+#* Apply function fun to a model.
+#* @param fun name of the function to apply.
+#* @get /make
+function() {
+  targets::tar_make()
 }
 
-#* Plot out data from the iris dataset
-#* @param spec If provided, filter the data to only this species (e.g. 'setosa')
-#* @get /plot
-#* @serializer png
-function(spec) {
-  myData <- iris
-  title <- "All Species"
-
-  # Filter if the species was specified
-  if (!missing(spec)) {
-    title <- paste0("Only the '", spec, "' Species")
-    myData <- subset(iris, Species == spec)
+#* Apply function fun to a model.
+#* @param fun name of the function to apply.
+#* @get /apply
+function(fun) {
+  fun <- eval(str2expression(fun))
+  to <- targets::tar_outdated()
+  if (is.null(to) || length(to) != 0) {
+    message("Some targets are outdated. Please run 'make' first.")
   }
-
-  plot(
-    myData$Sepal.Length, myData$Petal.Length,
-    main = title, xlab = "Sepal Length", ylab = "Petal Length"
-  )
+  fun(targets::tar_read_raw("model"))
 }
