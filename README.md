@@ -1,3 +1,3 @@
-# `plumber`& `targets`
+# `plumber` & `targets`
 
-Repository to test interfacing `plumber`& `targets`.
+Repository to test interfacing `plumber` & `targets`.
