@@ -2,6 +2,10 @@
 #* @param fun name of the function to apply.
 #* @get /make
 function() {
+  if (tar_active()) {
+    message("`targets` is active. Please try again later.")
+    return(NULL)
+  }
   targets::tar_make()
 }
 
