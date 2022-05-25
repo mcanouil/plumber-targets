@@ -18,5 +18,7 @@ function(fun) {
   if (is.null(to) || length(to) != 0) {
     message("Some targets are outdated. Please run 'make' first.")
   }
-  fun(targets::tar_read_raw("model"))
+  out <- fun(targets::tar_read_raw("model"))
+  rlang::hash(out)
+  out
 }
